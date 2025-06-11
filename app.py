@@ -64,7 +64,7 @@ def predict_image(model, image_to_predict):
 
 # --- APP LAYOUT ---
 MODEL_WEIGHTS_PATH = "authenticator_v3_pro.h5"
-VIDEO_FILE_PATH = "background.mp4"
+VIDEO_FILE_PATH = "image.png"
 set_video_as_page_bg(VIDEO_FILE_PATH)
 model = load_prediction_model(MODEL_WEIGHTS_PATH)
 
