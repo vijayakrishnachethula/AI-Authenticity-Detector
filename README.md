@@ -1,6 +1,6 @@
 # AI Authenticity Detector 🛡️
 
-[View Live Demo](https://your-live-app-url.streamlit.app)   •   [View on GitHub](https://github.com/vijayakrishnachethula/ai-authenticity-detector-)
+[View Live Demo](https://detectreal.streamlit.app/)   •   [View on GitHub](https://github.com/vijayakrishnachethula/ai-authenticity-detector-)
 
 ---
 
