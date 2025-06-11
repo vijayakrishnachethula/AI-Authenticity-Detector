@@ -62,4 +62,4 @@ The final model (`authenticator_v3_pro.h5`) was developed using **Transfer Learn
 This result demonstrates a significant improvement over a baseline CNN and shows effective mitigation of overfitting, a key challenge with this advanced dataset.
 
 ---
-*This project was created by C Vijay Chethula.*
+*This project was created by C Vijaya krishna Chethula.*
