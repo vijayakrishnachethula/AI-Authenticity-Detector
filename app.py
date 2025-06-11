@@ -140,7 +140,7 @@ if uploaded_file is not None:
             image_to_process = Image.open(uploaded_file)
             col1, col2 = st.columns([1, 1])
             with col1:
-                st.image(image_to_process, caption='Uploaded Image', use_column_width=True)
+                st.image(image_to_process, caption='Uploaded Image', use_container_width=True)
             with col2:
                 with st.spinner('AI is analyzing the image...'):
                     score = predict_image(model, image_to_process)
