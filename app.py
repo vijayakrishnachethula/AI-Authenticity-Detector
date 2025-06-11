@@ -52,21 +52,41 @@ def load_prediction_model(weights_path):
     model.load_weights(weights_path)
     return model
 
-def predict_image(model, image_to_predict):
+# def predict_image(model, image_to_predict):
+#     IMG_SIZE = 224
+#     img = image_to_predict.resize((IMG_SIZE, IMG_SIZE))
+#     img_array = np.array(img)
+#     if img_array.shape[2] == 4: img_array = img_array[:, :, :3]
+#     img_batch = np.expand_dims(img_array, axis=0)
+#     preprocessed_img = tf.keras.applications.mobilenet_v2.preprocess_input(img_batch)
+#     prediction = model.predict(preprocessed_img)
+#     return prediction[0][0]
+
+@st.cache_resource
+def load_prediction_model():
     IMG_SIZE = 224
-    img = image_to_predict.resize((IMG_SIZE, IMG_SIZE))
-    img_array = np.array(img)
-    if img_array.shape[2] == 4: img_array = img_array[:, :, :3]
-    img_batch = np.expand_dims(img_array, axis=0)
-    preprocessed_img = tf.keras.applications.mobilenet_v2.preprocess_input(img_batch)
-    prediction = model.predict(preprocessed_img)
-    return prediction[0][0]
+    base_model = tf.keras.applications.MobileNetV2(input_shape=(IMG_SIZE, IMG_SIZE, 3), include_top=False, weights='imagenet')
+    base_model.trainable = False
+    inputs = tf.keras.layers.Input(shape=(IMG_SIZE, IMG_SIZE, 3))
+    x = base_model(inputs, training=False)
+    x = tf.keras.layers.GlobalAveragePooling2D()(x)
+    x = tf.keras.layers.Dropout(0.2)(x)
+    outputs = tf.keras.layers.Dense(1, activation='sigmoid')(x)
+
+    model = tf.keras.models.Model(inputs, outputs)
+
+    weights_path = "authenticator_v3_pro.h5"
+    if not os.path.exists(weights_path):
+        return None
+    model.load_weights(weights_path)
+    return model
+
 
 # --- APP LAYOUT ---
 MODEL_WEIGHTS_PATH = "authenticator_v3_pro.h5"
-VIDEO_FILE_PATH = "image.png"
+VIDEO_FILE_PATH = ""
 set_video_as_page_bg(VIDEO_FILE_PATH)
-model = load_prediction_model(MODEL_WEIGHTS_PATH)
+# model = load_prediction_model(MODEL_WEIGHTS_PATH)
 
 if model is None:
     st.error("🔴 Critical Error: The AI model file could not be loaded.")
@@ -81,6 +101,10 @@ else:
 
     if uploaded_file is not None:
         # === NEW LOGIC TO HANDLE PDFS THOROUGHLY ===
+        model = load_prediction_model()
+        if model is None:
+          st.error("🔴 Critical Error: The AI model file could not be loaded.")
+          st.stop()
         if uploaded_file.type == "application/pdf":
             st.info("PDF detected. Extracting and analyzing all embedded images...")
             results = []
