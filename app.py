@@ -76,7 +76,7 @@ def predict_image(model, image_to_predict):
 
 # --- MAIN APP ---
 MODEL_WEIGHTS_PATH = "authenticator_v3_pro.h5"
-BACKGROUND_IMAGE_PATH = "image.png"
+BACKGROUND_IMAGE_PATH = "bg.jpg"
 
 set_bg_image(BACKGROUND_IMAGE_PATH)
 
