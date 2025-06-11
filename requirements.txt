@@ -3,3 +3,4 @@ tensorflow
 Pillow
 PyMuPDF
 numpy
+python-magic
